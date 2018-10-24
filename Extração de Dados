@@ -1,0 +1,38 @@
+import requests
+from bs4 import BeautifulSoup
+
+cid = ""
+es = ""
+mes = ""
+min = ""
+max = ""
+pre = ""
+lista = ["1/cruzeirodosul-ac", "6/riobranco-ac", "11/benjaminconstant-am", "16/carvoeiro-am", "21/itapiranga-am", "26/manicore-am", "31/parintins-am", "36/tupuruquara-am", "41/oiapoque-ap", "46/caravelas-ba", "51/jacobina-ba", "56/salvador-ba", "61/brasília-df", "66/cachoeirodeitapemirim-es", "71/itaguacu-es", "76/marataizes-es", "81/saogabrieldapalha-es", "86/aragarcas-go", "91/barradocorda-ma", "101/araxa-mg", "106/barbacena-mg", "111/bomdespacho-mg", "116/caete-mg", "121/carangola-mg", "126/cataguases-mg", "131/coraçãodejesus-mg", "136/divinopolis-mg", "141/graomogol-mg", "146/itamarandiba-mg", "151/joaopinheiro-mg", "156/malacacheta-mg", "161/medina-mg", "166/mutum-mg", "171/paracatu-mg", "176/pirapora-mg", "181/pocofundo-mg", "186/sabara-mg", "191/saofrancisco-mg", "201/turmalina-mg", "206/varginha-mg", "211/aguasformosas-mg", "216/treslagoas-ms", "221/poxoreo-mt", "226/alenquer-pa", "231/belterra-pa", "236/conceicaodoaraguaia-pa", "241/jacareacanga-pa", "246/prainha-pa", "251/soure-pa", "256/joaopessoa-pb", "260/bomjesus-pi","261/floriano-pi", "266/arapongas-pr", "271/curitiba-pr", "276/jacarezinho-pr", "281/umuarama-pr", "291/buzios-rj", "296/cordeiro-rj", "301/itaguai-rj", "306/mage-rj", "311/neves-rj", "316/penedo-rj", "321/riodejaneiro-rj", "326/saojoaodabarra-rj", "331/vassouras-rj", "336/cocoal-ro", "341/ouropretodooeste-ro", "346/vilhena-ro", "351/bomjesus-rs", "356/farroupilha-rs", "361/passofundo-rs", "366/santamaria-rs", "371/uruguaiana-rs", "376/criciuma-sc", "381/joinville-sc", "386/propria-se", "391/americana-sp", "396/apiai-sp", "401/assis-sp", "406/bauru-sp", "411/bragancapaulista-sp", "416/caieras-sp", "421/capeladoalto-sp", "426/catanduva-sp", "431/cotia-sp", "436/dracena-sp", "441/fernandopolis-sp", "446/garca-sp", "451/guaira-sp", "456/ipero-sp", "461/itapevi-sp", "466/ituverava-sp", "471/josebonifacio-sp", "476/leme-sp", "481/lorena-sp", "486/marilia-sp", "491/mococa-sp", "496/novohorizonte-sp", "558/saopaulo-sp","600/tocantinopolis"]
+tot_cid = len(lista) #Total de cidades
+
+print("\n             +","\033[36m=" * 25,"\033[m+")
+print("             \033[36m|","    \033[mDados Climáticos","     \033[36m|")
+print("             \033[m+","\033[36m=" * 25,"\033[m+")
+print("\n\033[m")
+
+for c in range(0, 1, 1):
+    try:
+        url = "https://www.climatempo.com.br/previsao-do-tempo/cidade/{}".format(lista[c])
+        r = requests.get(url)
+        soup = BeautifulSoup(r.text, 'html.parser')
+        cid = soup.find("h1", {"id": "momento-localidade"}).contents[0]                                         #Cidada/Estado
+        mes = soup.find("p", {"class": "left top10 bold txt-black font12 small-12"}).contents[0]                #Mes
+        max = soup.find("p", {"id": "tempMax0"}).contents[0]                                                    #Temeratura Maxima
+        min = soup.find("p", {"id": "tempMin0"}).contents[0]                                                    #Temeratura Minima
+        pre = soup.find("p", {"class": "left text-center small-12 top5 normal font12 txt-black"}).contents[0]   #Precipitação de chuva
+        print("               \033[31m >>>Previsão do Tempo<<<")
+        print("\033[36m+", "-" * 50)
+        print("\033[36m| \033[mCidade/Estado: {}".format(cid))
+        print("\033[36m| \033[mMês: {}".format(mes.title()))
+        print("\033[36m| \033[mMiníma: {} / Máxima: {}".format(min, max))
+        print("\033[36m| \033[mPrecipitação: {} mm".format(pre[0:3:1].rstrip()))
+        print("\033[36m+", "-" * 50)
+    except:
+        print("\033[31mERRO - Pagina não encontrada.\n")
+    pass
+print("\n\nBy Kelve ®¿®")
